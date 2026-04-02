@@ -1,5 +1,5 @@
 {
-    "id": "org.freedesktop.Sdk.Extension.php84",
+    "id": "org.freedesktop.Sdk.Extension.php85",
     "branch": "25.08",
     "runtime": "org.freedesktop.Sdk",
     "sdk": "org.freedesktop.Sdk",
@@ -10,12 +10,12 @@
     "build-options": {
         "no-debuginfo": true,
         "strip": true,
-        "prefix": "/usr/lib/sdk/php84",
-        "prepend-path": "/usr/lib/sdk/php84/bin",
-        "prepend-ld-library-path": "/usr/lib/sdk/php84/lib",
-        "prepend-pkg-config-path": "/usr/lib/sdk/php84/lib/pkgconfig",
+        "prefix": "/usr/lib/sdk/php85",
+        "prepend-path": "/usr/lib/sdk/php85/bin",
+        "prepend-ld-library-path": "/usr/lib/sdk/php85/lib",
+        "prepend-pkg-config-path": "/usr/lib/sdk/php85/lib/pkgconfig",
         "env": {
-            "PHP_INI_DIR": "/usr/lib/sdk/php84/etc/php"
+            "PHP_INI_DIR": "/usr/lib/sdk/php85/etc/php"
         }
     },
     "modules": [
@@ -52,24 +52,46 @@
             ]
         },
         {
+            "name": "libpq",
+            "config-opts": [
+                "--disable-rpath",
+                "--with-openssl",
+                "--enable-nls",
+                "--without-readline"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://git.postgresql.org/git/postgresql.git",
+                    "commit": "62d6c7d3df6287f1bd83199c1a746e50d31571a0",
+                    "tag": "REL_18_3",
+                    "x-checker-data": {
+                        "type": "git",
+                        "tag-pattern": "^REL_([\\d_]+)$"
+                    }
+                }
+            ]
+        },
+        {
             "name": "php",
             "buildsystem": "autotools",
             "config-opts": [
                 "--enable-libgcc",
                 "--enable-option-checking=fatal",
-                "--with-config-file-path=/usr/lib/sdk/php84/etc/php",
-                "--with-config-file-scan-dir=/usr/lib/sdk/php84/etc/php/conf.d:/app/etc/php:/var/config/php/8.4/ini",
+                "--with-config-file-path=/usr/lib/sdk/php85/etc/php",
+                "--with-config-file-scan-dir=/usr/lib/sdk/php85/etc/php/conf.d:/app/etc/php:/var/config/php/8.5/ini",
                 "--disable-cgi",
                 "--enable-intl",
                 "--enable-mbstring",
-                "--enable-opcache",
                 "--enable-pcntl",
                 "--with-bz2",
                 "--with-curl",
                 "--with-openssl",
                 "--with-system-ciphers",
                 "--with-zip",
-                "--with-zlib"
+                "--with-zlib",
+                "--with-pgsql",
+                "--with-pdo-pgsql"
             ],
             "post-install": [
                 "install -Dm644 php.ini-development ${PHP_INI_DIR}/php.ini",
@@ -85,11 +107,11 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://www.php.net/distributions/php-8.4.17.tar.xz",
-                    "sha256": "28b234e347286158cae921d61283eb1169d89bc9d2e5f5976567260ff38b0bfa",
+                    "url": "https://www.php.net/distributions/php-8.5.4.tar.xz",
+                    "sha256": "c1569f1f543f6b025c583cdc0e730e5c5833c603618613f1aa8e75d1524b8c91",
                     "x-checker-data": {
                         "type": "json",
-                        "url": "https://www.php.net/releases/index.php?json&version=8.4&max=1",
+                        "url": "https://www.php.net/releases/index.php?json&version=8.5.4&max=1",
                         "version-query": "keys[0]",
                         "url-query": "\"https://www.php.net/distributions/php-\" + $version + \".tar.xz\"",
                         "is-main-source": true
@@ -105,7 +127,7 @@
             "name": "apcu",
             "buildsystem": "autotools",
             "config-opts": [
-                "--with-php-config=/usr/lib/sdk/php84/bin/php-config"
+                "--with-php-config=/usr/lib/sdk/php85/bin/php-config"
             ],
             "post-install": [
                 "install -Dm755 modules/apcu.so $(php -r 'echo ini_get(\"extension_dir\");')/apcu.so",
@@ -144,7 +166,7 @@
             "name": "xdebug",
             "buildsystem": "autotools",
             "config-opts": [
-                "--with-php-config=/usr/lib/sdk/php84/bin/php-config"
+                "--with-php-config=/usr/lib/sdk/php85/bin/php-config"
             ],
             "post-install": [
                 "install -Dm755 modules/xdebug.so $(php -r 'echo ini_get(\"extension_dir\");')/xdebug.so",
@@ -159,8 +181,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://xdebug.org/files/xdebug-3.5.0.tgz",
-                    "sha256": "f6daf55a5c7adadb07dd2af25ff78b1cc9b1c58d6cc442a463eba015b678aabf",
+                    "url": "https://xdebug.org/files/xdebug-3.5.1.tgz",
+                    "sha256": "0f26849a5edf3d9120edc100219854599d54f923a8a4d1cb4fe4403520e49678",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 13302,
@@ -189,8 +211,8 @@
             "sources": [
                 {
                     "type": "file",
-                    "url": "https://getcomposer.org/download/2.9.3/composer.phar",
-                    "sha256": "3b3f9503a2d46590170e45edd29734197e797cea545b396d0b2823cac8ef4643",
+                    "url": "https://getcomposer.org/download/2.9.5/composer.phar",
+                    "sha256": "c86ce603fe836bf0861a38c93ac566c8f1e69ac44b2445d9b7a6a17ea2e9972a",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 9710,
@@ -232,7 +254,7 @@
                     "type": "script",
                     "dest-filename": "enable.sh",
                     "commands": [
-                        "export PATH=$PATH:/usr/lib/sdk/php84/bin:/var/config/composer/vendor/bin"
+                        "export PATH=$PATH:/usr/lib/sdk/php85/bin:/var/config/composer/vendor/bin"
                     ]
                 }
             ]

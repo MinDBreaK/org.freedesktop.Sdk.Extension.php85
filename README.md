@@ -1,14 +1,14 @@
-# org.freedesktop.Sdk.Extension.php84
+# org.freedesktop.Sdk.Extension.php85
 
 This extension adds PHP support to Flatpak.
 
-PHP installs to `/usr/lib/sdk/php84` inside the sandbox.
+PHP installs to `/usr/lib/sdk/php85` inside the sandbox.
 
 Example Visual Studio Code Configuration
 
 ```json
-"php.validate.executablePath": "/usr/lib/sdk/php84/bin/php",
-"php.executablePath": "/usr/lib/sdk/php84/bin/php",
+"php.validate.executablePath": "/usr/lib/sdk/php85/bin/php",
+"php.executablePath": "/usr/lib/sdk/php85/bin/php",
 ```
 
 Includes
@@ -18,17 +18,18 @@ Includes
 * [PHIVE](https://phar.io/)
 * [apcu](https://pecl.php.net/package/APCu)
 * [xdebug](https://xdebug.org/)
+* [pie](https://www.php.net/manual/en/install.pie.intro.php)
 
 Each Flatpak can have its own custom php configuration files.
 e.g. for Visual Studio Code
-`~/.var/app/com.visualstudio.code/config/php/8.4/ini/my-custom.ini` or `/var/config/php/8.4/ini/my-custom.ini` from a sandboxed shell.
+`~/.var/app/com.visualstudio.code/config/php/8.5/ini/my-custom.ini` or `/var/config/php/8.5/ini/my-custom.ini` from a sandboxed shell.
 
 Global composer installs are limited to the Flatpak they were installed in.
 
 #### Troubleshooting
 `/usr/bin/env: ‘php’: No such file or directory`
 
-Run `. /usr/lib/sdk/php84/enable.sh` or add `/usr/lib/sdk/php84/bin` to your $PATH.
+Run `. /usr/lib/sdk/php85/enable.sh` or add `/usr/lib/sdk/php85/bin` to your $PATH.
 
 #### Modules
 
@@ -48,6 +49,7 @@ hash
 iconv
 intl
 json
+lexbor
 libxml
 mbstring
 openssl
@@ -65,17 +67,20 @@ SPL
 sqlite3
 standard
 tokenizer
+uri
 xdebug
 xml
 xmlreader
 xmlwriter
+Zend OPcache
 zip
 zlib
 
 [Zend Modules]
 Xdebug
+Zend OPcache
 ```
 #### Build
 ```bash
-flatpak-builder --repo repo .build org.freedesktop.Sdk.Extension.php84.json --force-clean
+flatpak-builder --repo repo .build org.freedesktop.Sdk.Extension.php85.json --force-clean
 ```
